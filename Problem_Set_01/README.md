@@ -1,42 +1,36 @@
-# Problem Set 01: Bank Term Deposit Subscription Prediction
+# Problem Set 02: Pneumonia Detection from Chest X-Ray Images
 
 ## 1. Project Overview
-The objective of this project is to build and train a machine learning model to predict whether a client will subscribe to a bank term deposit based on direct marketing campaign data. By identifying high-propensity leads, the bank can optimize marketing campaigns and allocate outreach resources more effectively.
+This project focuses on automated pneumonia detection from chest X-ray radiography using deep learning and convolutional neural networks (CNNs). The goal is to accurately distinguish between normal lungs and lungs exhibiting bacterial or viral pneumonia.
 
 ---
 
-## 2. Dataset & Preprocessing Pipeline
-- **Encoding Categorical Features**: Categorical variables (such as job type, marital status, education, contact method) were encoded into numerical representations using one-hot encoding / label encoding.
-- **Feature Scaling**: Continuous numerical features were normalized/standardized using `StandardScaler` to bring all input variables onto a uniform scale, facilitating stable gradient descent in neural networks.
-- **Data Splitting**: Partitioned the data into training, validation, and testing sets to benchmark model generalization.
+## 2. Dataset & Augmentation Pipeline
+- **Dataset**: Chest X-ray images labeled as `Normal` and `Pneumonia`.
+- **Image Preprocessing**:
+  - Resized input images to uniform dimensions (e.g., $224 \times 224$).
+  - Normalized pixel intensities to $[0, 1]$ or standardized to channel-wise mean and variance.
+- **Data Augmentation**: Applied rotation, horizontal flipping, zoom, and shear transformations during training to expand dataset diversity and prevent overfitting on small training samples.
 
 ---
 
 ## 3. Methodology & Model Architecture
-
-### Baseline Model
-- **Logistic Regression**: Implemented as a performance baseline to establish the linear floor and assess separability before moving to non-linear neural approaches.
-
-### Deep Learning Architecture (Multilayer Perceptron - MLP)
-Implemented using **TensorFlow / Keras**:
-- **Input Layer**: Accepts the preprocessed feature vectors.
-- **Hidden Layers**: Dense layers equipped with ReLU activation functions.
-- **Regularization & Optimization**:
-  - Dropout layers and batch normalization to mitigate initial overfitting observed during training.
-  - Optimizer: Adam
-  - Loss Function: Binary Cross-Entropy
-- **Output Layer**: Single dense unit with a Sigmoid activation function outputting the subscription probability.
+- **Architecture**: Deep Convolutional Neural Network (CNN) / Pretrained Transfer Learning backbone (e.g., ResNet / VGG / Custom ConvNet).
+- **Feature Extractor**: Alternating convolutional layers (with ReLU activation) and max-pooling operations to extract spatial hierarchical patterns.
+- **Classification Head**: Global Average Pooling followed by dense fully connected layers with Dropout.
+- **Output Layer**: Sigmoid / Softmax activation for binary classification (`Normal` vs. `Pneumonia`).
+- **Optimization**: Adam / SGD optimizer utilizing Binary Cross-Entropy loss.
 
 ---
 
 ## 4. Evaluation Metrics
-Given class imbalance typical of marketing datasets, models were evaluated on:
-- **ROC-AUC Score**
-- **Precision, Recall, and F1-Score**
-- **Confusion Matrix**
+- **Accuracy**: Overall classification accuracy.
+- **Recall (Sensitivity)**: Critical metric to minimize false negatives in medical diagnostics.
+- **Precision & F1-Score**: Evaluated to maintain balance between true detections and false alarms.
+- **Confusion Matrix & Loss Curves**: Visualizing training vs. validation loss progression across epochs.
 
 ---
 
-## 5. Key Findings & Business Impact
-- Addressing initial overfitting through regularization and tuning improved out-of-sample validation accuracy and stability.
-- The final neural network enables targeted marketing by prioritizing individuals in the top deciles of predicted subscription probability, minimizing contact costs while maximizing conversion rates.
+## 5. Summary of Results
+- The model successfully learns distinctive radiographic features of pulmonary opacities indicative of pneumonia.
+- Incorporating regularization and data augmentation helped mitigate overfitting and ensured consistent validation performance.
